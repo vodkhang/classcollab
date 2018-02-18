@@ -15,6 +15,15 @@
 #allow files under hashtag
 !packages/hashtag
 !packages/hashtag/**
+
+#allow server file messageSearchMultiRoom
+!*server
+!server/methods
+!server/methods/messageSearchMultiRooms.js
+
+!packages/rocketchat-ui-flextab
+!packages/rocketchat-ui-flextab/messageSearch.js
 !.gitignore
+
 
 .DS_Store
