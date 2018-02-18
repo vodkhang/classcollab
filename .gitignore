@@ -22,7 +22,10 @@
 !server/methods/messageSearchMultiRooms.js
 
 !packages/rocketchat-ui-flextab
-!packages/rocketchat-ui-flextab/messageSearch.js
+!packages/rocketchat-ui-flextab/client
+!packages/rocketchat-ui-flextab/client/tabs
+!packages/rocketchat-ui-flextab/client/tabs/messageSearch.js
+
 !.gitignore
 
 
