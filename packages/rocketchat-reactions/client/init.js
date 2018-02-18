@@ -25,7 +25,7 @@ Template.room.events({
 		});
 	},
 
-	'click .messageReacts'(event) {
+	'click .selectedReaction'(event) {
 		event.preventDefault();
 		event.stopPropagation();
 		const react = event.target.getAttribute('title');
@@ -40,7 +40,7 @@ Template.room.events({
 		//console.log('1 like');
 		const data = Blaze.getData(event.currentTarget);
 		//RocketChat.models.Messages.setLike(data._arguments[1]._id, Meteor.userId());
-		Meteor.call('setReaction', ':like:', data._arguments[1]._id);
+		Meteor.call('setReaction', `:like:`, data._arguments[1]._id);
 	},
 
 	'mouseenter .reactions > li:not(.add-reaction)'(event) {

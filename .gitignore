@@ -11,7 +11,10 @@
 # allow files under rocketchat-ui-message
 !packages/rocketchat-ui-message
 !packages/rocketchat-ui-message/**
-!.gitignore
 
+#allow files under hashtag
+!packages/hashtag
+!packages/hashtag/**
+!.gitignore
 
 .DS_Store
