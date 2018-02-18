@@ -1,31 +1,41 @@
+/* globals msgStream */
 import _ from 'underscore';
 
 Meteor.methods({
-	setReaction(reaction, messageId) {
-		console.log("")
+	setLike(messageId, username) {
 		if (!Meteor.userId()) {
-			throw new Meteor.Error(203, 'User_logged_out');
+			throw new Meteor.Error('error-invalid-user', 'Invalid user', { method: 'setLike' });
+		}
+
+		const message = RocketChat.models.Messages.findOneById(messageId);
+
+		if (!message) {
+			throw new Meteor.Error('error-not-allowed', 'Not allowed', { method: 'setLike' });
+		}
+
+		const room = Meteor.call('canAccessRoom', message.rid, Meteor.userId());
+
+		if (!room) {
+			throw new Meteor.Error('error-not-allowed', 'Not allowed', { method: 'setLike' });
 		}
 
 		const user = Meteor.user();
 
-		const message = RocketChat.models.Messages.findOne({ _id: messageId });
-		const room = RocketChat.models.Rooms.findOne({ _id: message.rid });
-
 		if (Array.isArray(room.muted) && room.muted.indexOf(user.username) !== -1 && !room.reactWhenReadOnly) {
+			RocketChat.Notifications.notifyUser(Meteor.userId(), 'message', {
+				_id: Random.id(),
+				rid: room._id,
+				ts: new Date(),
+				msg: TAPi18n.__('You_have_been_muted', {}, user.language)
+			});
 			return false;
 		} else if (!RocketChat.models.Subscriptions.findOne({ rid: message.rid })) {
 			return false;
-		} else if (message.private) {
-			return false;
 		}
 
-		if (message.reactions && message.reactions[reaction] && message.reactions[reaction].usernames.indexOf(user.username) !== -1) {
-			message.reactions[reaction].usernames.splice(message.reactions[reaction].usernames.indexOf(user.username), 1);
+		//reaction = `:${ reaction.replace(/:/g, '') }:`;
 
-			if (message.reactions[reaction].usernames.length === 0) {
-				delete message.reactions[reaction];
-			}
+
 
 			if (_.isEmpty(message.reactions)) {
 				delete message.reactions;
@@ -49,6 +59,8 @@ Meteor.methods({
 			RocketChat.models.Messages.setReactions(messageId, message.reactions);
 			RocketChat.callbacks.run('setReaction', messageId, reaction);
 		}
+
+		msgStream.emit(message.rid, message);
 
 		return;
 	}
