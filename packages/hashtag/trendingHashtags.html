@@ -1,0 +1,17 @@
+<template name="trendingHashtags">
+	<div class="list-view trending-hashtags-list flex-tab__header">
+		<div class="title">
+			<h2>{{_ "Hashtags"}}</h2>
+		</div>
+			{{#unless hasHashTags}}
+				<h2>{{_ "No_HashTags_messages"}}</h2>
+			{{/unless}}
+	</div>
+	<div class="flex-tab__result js-list">
+		<ul class="list clearfix">
+			{{#each hashTags}}
+				{{#nrr nrrargs 'hashtags'}}{{/nrr}}
+			{{/each}}
+		</ul>
+	</div>
+</template>
