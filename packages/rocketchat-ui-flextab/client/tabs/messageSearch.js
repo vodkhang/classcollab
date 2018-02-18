@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import { Meteor } from 'meteor/meteor'
 
 Meteor.startup(function() {
 	RocketChat.MessageAction.addButton({
@@ -10,10 +11,17 @@ Meteor.startup(function() {
 		],
 		action() {
 			const message = this._arguments[1];
+			console.log(message);
 			if (window.matchMedia('(max-width: 500px)').matches) {
 				Template.instance().tabBar.close();
-			}
 
+			}
+			menu.close();
+
+			Meteor.setTimeout(FlowRouter.goToRoomById(message.rid), 100);
+			menu.close();
+			console.log(Template.currentData());
+			console.log(RoomHistoryManager.getRoom(message.rid));
 			RoomHistoryManager.getSurroundingMessages(message, 50);
 		},
 		order: 100,
@@ -29,6 +37,7 @@ Template.messageSearch.helpers({
 
 	searchResultMessages() {
 		const searchResult = Template.instance().searchResult.get();
+		console.log(searchResult);
 		if (searchResult) {
 			return searchResult.messages;
 		}
@@ -89,8 +98,7 @@ Template.messageSearch.events({
 
 Template.messageSearch.onCreated(function() {
 	this.currentSearchTerm = new ReactiveVar('');
-	this.searchResult = new ReactiveVar;
-
+	this.searchResult = new ReactiveVar();
 	this.hasMore = new ReactiveVar(true);
 	this.limit = new ReactiveVar(20);
 	this.ready = new ReactiveVar(true);
@@ -99,7 +107,11 @@ Template.messageSearch.onCreated(function() {
 		this.ready.set(false);
 		const value = this.$('#message-search').val();
 		return Tracker.nonreactive(() => {
-			return Meteor.call('messageSearch', value, Session.get('openedRoom'), this.limit.get(), (error, result) => {
+			roomList = ChatRoom.find({}, {_id: true}).fetch();
+			roomIDs = _.map(roomList, (room) => { return room._id;})
+			console.log(roomIDs);
+			return Meteor.call('messageSearchMultiRooms', value, roomIDs, this.limit.get(), (error, result) => {
+				console.log(result);
 				this.currentSearchTerm.set(value);
 				this.ready.set(true);
 				if ((result != null) && (((result.messages != null ? result.messages.length : undefined) > 0) || ((result.users != null ? result.users.length : undefined) > 0) || ((result.channels != null ? result.channels.length : undefined) > 0))) {
@@ -110,9 +122,7 @@ Template.messageSearch.onCreated(function() {
 				} else {
 					return this.searchResult.set();
 				}
-			}
-			);
-		}
-		);
-	};
+			});
+		});
+	}
 });
