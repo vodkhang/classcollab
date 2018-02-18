@@ -1,0 +1,17 @@
+# Ignore everything
+*
+
+# descend into packages
+!*packages
+
+# allow files under rocketchat-reactions
+!packages/rocketchat-reactions
+!packages/rocketchat-reactions/**
+
+# allow files under rocketchat-ui-message
+!packages/rocketchat-ui-message
+!packages/rocketchat-ui-message/**
+!.gitignore
+
+
+.DS_Store
