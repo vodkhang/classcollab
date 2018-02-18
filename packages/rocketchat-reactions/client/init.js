@@ -1,6 +1,5 @@
 Template.room.events({
 	'click .add-reaction, click [data-message-action="reaction-message"]'(event) {
-		//console.log('asdasda');
 		event.preventDefault();
 		event.stopPropagation();
 		const data = Blaze.getData(event.currentTarget);
@@ -12,8 +11,6 @@ Template.room.events({
 		if (Array.isArray(room.muted) && room.muted.indexOf(user.username) !== -1 && !room.reactWhenReadOnly) {
 			return false;
 		}
-		const temp = event.currentTarget;
-		//console.log(event.currentTarget);
 
 		RocketChat.EmojiPicker.open(event.currentTarget, (emoji) => {
 			Meteor.call('setReaction', `:${ emoji }:`, data._arguments[1]._id);
@@ -22,7 +19,6 @@ Template.room.events({
 
 	'click .reactions > li:not(.add-reaction)'(event) {
 		event.preventDefault();
-		console.log("click on reaction icon");
 		const data = Blaze.getData(event.currentTarget);
 		Meteor.call('setReaction', $(event.currentTarget).data('emoji'), data._arguments[1]._id, () => {
 			RocketChat.tooltip.hide();
@@ -32,10 +28,9 @@ Template.room.events({
 	'click .messageReacts'(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		console.log(event.target.getAttribute("title"));
-		const react = event.target.getAttribute("title");
+		const react = event.target.getAttribute('title');
 		const data = Blaze.getData(event.currentTarget);
-		Meteor.call('setReaction', `:${react}`, data._arguments[1]._id);
+		Meteor.call('setReaction', `:${ react }`, data._arguments[1]._id);
 	},
 
 
@@ -45,10 +40,7 @@ Template.room.events({
 		//console.log('1 like');
 		const data = Blaze.getData(event.currentTarget);
 		//RocketChat.models.Messages.setLike(data._arguments[1]._id, Meteor.userId());
-		Meteor.call('setReaction', `:like:`, data._arguments[1]._id);
-		var temp = RocketChat.models.Messages.showLike(Meteor.userId());
-		//console.log("retrieve like object");
-		//console.log(temp);
+		Meteor.call('setReaction', ':like:', data._arguments[1]._id);
 	},
 
 	'mouseenter .reactions > li:not(.add-reaction)'(event) {

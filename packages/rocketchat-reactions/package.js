@@ -18,7 +18,6 @@ Package.onUse(function(api) {
 	api.addFiles('server/models/Messages.js');
 	api.addFiles('client/methods/setReaction.js', 'client');
 	api.addFiles('setReaction.js', 'server');
-	//api.addFiles('setLike.js', 'server');
 
 	api.addFiles('client/stylesheets/reaction.css', 'client');
 });

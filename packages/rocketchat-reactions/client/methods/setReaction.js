@@ -2,7 +2,6 @@ import _ from 'underscore';
 
 Meteor.methods({
 	setReaction(reaction, messageId) {
-		console.log("")
 		if (!Meteor.userId()) {
 			throw new Meteor.Error(203, 'User_logged_out');
 		}
