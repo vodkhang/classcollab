@@ -378,7 +378,7 @@ Template.messageBox.events({
 	},
 	'click .js-send'(event, instance) {
 		const input = instance.find('.js-input-message');
-		console.log(input);
+		//console.log(input);
 		//console.log(chatMessages);
 		//console.log(chatMessages[this._id]);
 		// test zoom link generate
@@ -469,6 +469,7 @@ Template.messageBox.events({
 				applyMd.apply(action, [event, t]);
 			}
 		}
+		//console.log(chatMessages);
 		return chatMessages[this._id].keydown(this._id, event, Template.instance());
 	}),
 	'input .js-input-message'(event, instance) {

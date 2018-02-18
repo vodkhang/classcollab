@@ -9,9 +9,9 @@ RocketChat.models.Messages.unsetReactions = function(messageId) {
 RocketChat.models.Messages.setLike = function(messageId, username) {
 	const likeUsers = this.find({$and: [{_id: messageId}, {'likeList': {$in: [username]}}]}).fetch();
 	if (likeUsers.length === 0) {
-		return this.update({_id: messageId}, { $inc: { 'like': 1 }, $addToSet: {'likeList': username}});
+		return this.update({_id: messageId}, { $inc: { 'like': 1 }, $addToSet: {'likeList' : username}});
 	} else {
-		return this.update({_id: messageId}, { $inc: { 'like': -1 }, $pull: {'likeList': username}});
+		return this.update({_id: messageId}, { $inc: { 'like': -1 }, $pull: {'likeList' : username}});
 	}
 
 

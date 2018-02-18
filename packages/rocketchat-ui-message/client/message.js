@@ -2,6 +2,8 @@
 import _ from 'underscore';
 import moment from 'moment';
 
+const reactList = ["grin", "fearful", "angry", "sunglasses"];
+
 Template.message.helpers({
 	encodeURI(text) {
 		return encodeURI(text);
@@ -13,9 +15,53 @@ Template.message.helpers({
 	},
 
 	messageReacts() {
-		const reactList = ["grin", "surprised", "angry", "sunglasses"];
 		return reactList;
 	},
+
+	selectedReactions() {
+		return reactList.map(react => {
+			const emoji = `:${react}:`;
+			const userUsername = Meteor.user() && Meteor.user().username;
+			const usernames = "none";
+			if (this.reactions != undefined && this.reactions.hasOwnProperty(emoji)) {
+				const reaction = this.reactions[emoji];
+				const total = reaction.usernames.length;
+				let usernames = reaction.usernames.slice(0, 15).map(username => username === userUsername ? t('You').toLowerCase() : `@${ username }`).join(', ');
+				if (total > 15) {
+					usernames = `${ usernames } ${ t('And_more', {
+						length: total - 15
+					}).toLowerCase() }`;
+				} else {
+					usernames = usernames.replace(/,([^,]+)$/, ` ${ t('and') }$1`);
+				}
+				if (usernames[0] !== '@') {
+					usernames = usernames[0].toUpperCase() + usernames.substr(1);
+				}
+				return {
+					emoji,
+					count: reaction.usernames.length,
+					usernames,
+					reaction: ` ${ t('Reacted_with').toLowerCase() } ${ emoji }`,
+					userReacted: reaction.usernames.indexOf(userUsername) > -1,
+					reactionName: react
+				};
+			}
+			else
+				return {
+					emoji,
+					count: 0,
+					usernames,
+					reactions: ` ${ t('Reacted_with').toLowerCase() } ${ emoji }`,
+					userReacted: false,
+					reactionName: react
+				};
+
+		}
+
+
+		)
+	},
+
 
 	roleTags() {
 		const user = Meteor.user();
@@ -65,7 +111,7 @@ Template.message.helpers({
 	},
 
 	getLike(react) {
-		console.log(this);
+		//console.log(this);
 		//console.log(this._id);
 		//console.log(RocketChat.models.Messages.showLike(this._id).fetch()[0].like);
 		var userCount = 0;
@@ -226,7 +272,8 @@ Template.message.helpers({
 	},
 	reactions() {
 		const userUsername = Meteor.user() && Meteor.user().username;
-		return Object.keys(this.reactions||{}).map(emoji => {
+		return Object.keys(this.reactions||{}).filter(emoji => { var temp = emoji.replace(/:/g, '');
+																return reactList.indexOf(temp) == -1;}).map(emoji => {
 			//console.log(this.reactions);
 			const reaction = this.reactions[emoji];
 			const total = reaction.usernames.length;

@@ -79,14 +79,7 @@
 				{{/if}}
 			</div>
 		{{/unless}}
-		<ul class = "messageReacts">
-			{{#each react in messageReacts}}
-				<li class="{{react}}">
-					<span class = "icon-emo-{{react}}" title="{{react}}">{{getLike react}}</span>
-				</li>
-			{{/each}}
-		</ul>
-		<ul class="actionLinks {{hideActionLinks}}">
+		<ul class="actionLinks">
 			{{#each actionLink in actionLinks}}
 				<li class="color-primary-action-color">
 					<span class="action-link" data-actionlink="{{actionLink.id}}">
@@ -102,7 +95,20 @@
 				</li>
 			{{/each}}
 		</ul>
-		<ul class="reactions {{hideReactions}}">
+		<ul class="selectedReaction">
+			{{#each reaction in selectedReactions}}
+				<li title= {{reaction.reactionName}} data-emoji="{{reaction.emoji}}" {{markUserReaction reaction}}>
+					<span class="reaction-emoji">{{> renderEmoji reaction.emoji}}</span>
+					<span class="reaction-count">{{reaction.count}}</span>
+					<ul class="people">
+						<span style="font-weight: bold;">
+							{{reaction.usernames}} <span style="color: #aaa;">{{reaction.reaction}}</span>
+						</span>
+					</ul>
+				</li>
+			{{/each}}
+		</ul>
+		<ul class="reactions">
 			{{#each reaction in reactions}}
 				<li data-emoji="{{reaction.emoji}}" {{markUserReaction reaction}}>
 					<span class="reaction-emoji">{{> renderEmoji reaction.emoji}}</span>
@@ -116,10 +122,6 @@
 			{{/each}}
 			<li class="add-reaction">
 				<span class="icon-flags"></span>
-			</li>
-
-			<li class="like">
-				<span class="icon-emo-grin"></span>
 			</li>
 		</ul>
 	</li>
