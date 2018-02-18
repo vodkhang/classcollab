@@ -24,6 +24,23 @@ Template.room.events({
 		});
 	},
 
+	'click .messageReacts'(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		const react = event.target.getAttribute('title');
+		const data = Blaze.getData(event.currentTarget);
+		Meteor.call('setReaction', `:${ react }`, data._arguments[1]._id);
+	},
+
+
+	'click .like'(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		const data = Blaze.getData(event.currentTarget);
+
+		Meteor.call('setReaction', ':like:', data._arguments[1]._id);
+	},
+
 	'mouseenter .reactions > li:not(.add-reaction)'(event) {
 		event.stopPropagation();
 		RocketChat.tooltip.showElement($(event.currentTarget).find('.people').get(0), event.currentTarget);

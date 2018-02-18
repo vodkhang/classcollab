@@ -311,10 +311,6 @@ Template.messagePopupConfig.helpers({
 				getFilter(collection, filter) {
 					const key = `:${ filter }`;
 
-					if (!RocketChat.getUserPreference(Meteor.user(), 'useEmojis')) {
-						return [];
-					}
-
 					if (!RocketChat.emoji.packages.emojione || RocketChat.emoji.packages.emojione.asciiList[key]) {
 						return [];
 					}

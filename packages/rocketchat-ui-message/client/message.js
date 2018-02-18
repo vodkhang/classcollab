@@ -11,9 +11,16 @@ Template.message.helpers({
 			return 'bot';
 		}
 	},
+
+	messageReacts() {
+		const reactList = ["grin", "surprised", "angry", "sunglasses"];
+		return reactList;
+	},
+
 	roleTags() {
 		const user = Meteor.user();
-		if (!RocketChat.settings.get('UI_DisplayRoles') || RocketChat.getUserPreference(user, 'hideRoles')) {
+		// test user -> settings -> preferences -> hideRoles
+		if (!RocketChat.settings.get('UI_DisplayRoles') || (user && ['settings', 'preferences', 'hideRoles'].reduce((obj, field) => typeof obj !== 'undefined' && obj[field], user))) {
 			return [];
 		}
 
@@ -56,6 +63,19 @@ Template.message.helpers({
 			return this.avatar.replace(/^@/, '');
 		}
 	},
+
+	getLike(react) {
+		console.log(this);
+		//console.log(this._id);
+		//console.log(RocketChat.models.Messages.showLike(this._id).fetch()[0].like);
+		var userCount = 0;
+		if (this.reactions != undefined && this.reactions.hasOwnProperty(`:${react}:`)) {
+			//console.log(this.reactions[`:${react}:`]);
+			userCount = this.reactions[`:${react}:`].usernames.length;
+		}
+		return userCount;
+	},
+
 	getEmoji(emoji) {
 		return renderEmoji(emoji);
 	},
@@ -207,6 +227,7 @@ Template.message.helpers({
 	reactions() {
 		const userUsername = Meteor.user() && Meteor.user().username;
 		return Object.keys(this.reactions||{}).map(emoji => {
+			//console.log(this.reactions);
 			const reaction = this.reactions[emoji];
 			const total = reaction.usernames.length;
 			let usernames = reaction.usernames.slice(0, 15).map(username => username === userUsername ? t('You').toLowerCase() : `@${ username }`).join(', ');
@@ -220,6 +241,15 @@ Template.message.helpers({
 			if (usernames[0] !== '@') {
 				usernames = usernames[0].toUpperCase() + usernames.substr(1);
 			}
+			//console.log(emoji);
+			//console.log("struct");
+			//console.log({
+			//	emoji,
+			//	count: reaction.usernames.length,
+			//	usernames,
+			//	reaction: ` ${ t('Reacted_with')} ${ emoji }`,
+			//	userReacted: reaction.usernames.indexOf(userUsername) > -1
+			//});
 			return {
 				emoji,
 				count: reaction.usernames.length,
@@ -279,11 +309,11 @@ Template.message.helpers({
 		if (!context) {
 			context = 'message';
 		}
-
+		//console.log(RocketChat.MessageAction.getButtons(Template.currentData(), context, messageGroup));
+		//console.log(Template.currentData());
+		var temp = Template.currentData();
+		//console.log(temp);
 		return RocketChat.MessageAction.getButtons(Template.currentData(), context, messageGroup);
-	},
-	isSnippet() {
-		return this.actionContext === 'snippeted';
 	}
 });
 

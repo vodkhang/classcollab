@@ -52,17 +52,20 @@ RocketChat.messageBox.actions.add('Add_files_from', 'Computer', {
 	condition: () => RocketChat.settings.get('FileUpload_Enabled'),
 	action({event}) {
 		event.preventDefault();
-		const $input = $(document.createElement('input'));
-		$input.css('display', 'none');
-		$input.attr({
-			id: 'fileupload-input',
-			type: 'file',
-			multiple: 'multiple'
-		});
+		const input = document.createElement('input');
+		input.style.display = 'none';
+		input.type = 'file';
+		input.setAttribute('multiple', 'multiple');
+		document.body.appendChild(input);
 
-		$(document.body).append($input);
+		input.click();
 
-		$input.one('change', function(e) {
+		// Simple hack for cordova aka codegueira
+		if (typeof device !== 'undefined' && device.platform && device.platform.toLocaleLowerCase() === 'ios') {
+			input.click();
+		}
+
+		input.addEventListener('change', function(e) {
 			const filesToUpload = [...e.target.files].map(file => {
 				Object.defineProperty(file, 'type', {
 					value: mime.lookup(file.name)
@@ -73,15 +76,9 @@ RocketChat.messageBox.actions.add('Add_files_from', 'Computer', {
 				};
 			});
 			fileUpload(filesToUpload);
-			$input.remove();
-		});
+		}, {once: true});
 
-		$input.click();
-
-		// Simple hack for cordova aka codegueira
-		if ((typeof device !== 'undefined' && device.platform && device.platform.toLocaleLowerCase() === 'ios') || navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
-			$input.click();
-		}
+		input.remove();
 	}
 });
 

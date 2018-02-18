@@ -51,9 +51,6 @@
 			{{/if}}
 		</span>
 		<div class="body color-primary-font-color {{system true}}" dir="auto" data-unread-text="{{_ "Unread_Messages"}}">
-			{{#if isSnippet}}
-				<div class="snippet-name">{{_ "Snippet_name"}}: {{snippetName}}</div>
-			{{/if}}
 			{{{body}}}
 			{{#if hasOembed}}
 				{{#each urls}}
@@ -82,6 +79,13 @@
 				{{/if}}
 			</div>
 		{{/unless}}
+		<ul class = "messageReacts">
+			{{#each react in messageReacts}}
+				<li class="{{react}}">
+					<span class = "icon-emo-{{react}}" title="{{react}}">{{getLike react}}</span>
+				</li>
+			{{/each}}
+		</ul>
 		<ul class="actionLinks {{hideActionLinks}}">
 			{{#each actionLink in actionLinks}}
 				<li class="color-primary-action-color">
@@ -111,7 +115,11 @@
 				</li>
 			{{/each}}
 			<li class="add-reaction">
-				<span class="icon-people-plus"></span>
+				<span class="icon-flags"></span>
+			</li>
+
+			<li class="like">
+				<span class="icon-emo-grin"></span>
 			</li>
 		</ul>
 	</li>
