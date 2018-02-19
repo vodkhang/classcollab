@@ -2,7 +2,7 @@
 import _ from 'underscore';
 import moment from 'moment';
 
-const reactList = ["grin", "fearful", "angry", "sunglasses"];
+export const reactList = ["grin", "fearful", "angry", "sunglasses"];
 
 Template.message.helpers({
 	encodeURI(text) {
