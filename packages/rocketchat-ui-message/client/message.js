@@ -2,7 +2,7 @@
 import _ from 'underscore';
 import moment from 'moment';
 
-const reactList = ["grin", "fearful", "angry", "sunglasses"];
+export const reactList = ["grin", "fearful", "angry", "sunglasses"];
 
 Template.message.helpers({
 	encodeURI(text) {
@@ -62,6 +62,24 @@ Template.message.helpers({
 		)
 	},
 
+	//separate hashtags from normal text messages
+	hashtagsSeparation(msg){
+		msgComponents = [];
+		temp = '';
+		mode = 'text';
+		for (index in msg){
+			if (msg[index] == '#') {
+				mode = '#'
+				msgComponents.push(temp);
+				begin = index;
+			}
+			else
+				if ((msg[index].toLowerCase() >= 'a' && msg[index].toLowerCase() >= 'z')
+					|| (msg[index] >= '0' && msg['index'] <= '9'))
+						temp = temp.concat(msg[index]);
+		}
+
+	},
 
 	roleTags() {
 		const user = Meteor.user();
@@ -162,7 +180,9 @@ Template.message.helpers({
 		}
 	},
 	body() {
+		console.log(Template.instance());
 		return Template.instance().body;
+
 	},
 	system(returnClass) {
 		if (RocketChat.MessageTypes.isSystemMessage(this)) {
