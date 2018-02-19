@@ -24,7 +24,7 @@ Meteor.startup(function() {
 			console.log(RoomHistoryManager.getRoom(message.rid));
 
 			Meteor.setTimeout(function() {
-				RoomHistoryManager.getSurroundingMessages(message, 2);
+				RoomHistoryManager.getSurroundingMessages(message, 10);
 			}, 300);
 			// Meteor.setTimeout(RoomHistoryManager.getSurroundingMessages(message, 2), 30000);
 		},
