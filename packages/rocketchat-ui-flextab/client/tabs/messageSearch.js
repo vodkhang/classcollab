@@ -18,11 +18,15 @@ Meteor.startup(function() {
 			}
 			menu.close();
 
-			Meteor.setTimeout(FlowRouter.goToRoomById(message.rid), 100);
+			FlowRouter.goToRoomById(message.rid);
 			menu.close();
 			console.log(Template.currentData());
 			console.log(RoomHistoryManager.getRoom(message.rid));
-			RoomHistoryManager.getSurroundingMessages(message, 50);
+
+			Meteor.setTimeout(function() {
+				RoomHistoryManager.getSurroundingMessages(message, 2);
+			}, 300);
+			// Meteor.setTimeout(RoomHistoryManager.getSurroundingMessages(message, 2), 30000);
 		},
 		order: 100,
 		group: 'menu'
