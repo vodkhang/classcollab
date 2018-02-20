@@ -9,8 +9,6 @@ function hashtagsComp(msg) {
 	temp = '';
 	mode = 'msg'; //is this norm text or hashtag
 	for (index in msg){
-		//console.log(index);
-		//console.log(mode);
 		if (mode == 'msg') {
 			if (msg[index] != '#') {
 				temp = temp + msg[index];
@@ -26,11 +24,9 @@ function hashtagsComp(msg) {
 			}
 		}
 		else {
-			//console.log('in # mode');
 			if ((msg[index].toLowerCase() >= 'a' && msg[index].toLowerCase() <= 'z')
-				|| (msg[index] >= '0' && msg['index'] <= '9')) {
+				|| (msg[index] >= '0' && msg[index] <= '9')) {
 				temp = temp + msg[index];
-				//console.log(temp);
 			}
 			else
 			{
@@ -43,6 +39,7 @@ function hashtagsComp(msg) {
 	}
 	if (temp)
 		msgComponents.push(temp);
+	console.log(msgComponents);
 	return msgComponents;
 }
 
@@ -112,14 +109,14 @@ Template.message.helpers({
 
 	hasHashtags() {
 		msg = Template.instance().body;
-		console.log(hashtagsComp(msg).length);
-		console.log(hashtagsComp(msg));
+		//console.log(hashtagsComp(msg).length);
+		//console.log(hashtagsComp(msg));
 		return hashtagsComp(msg).length > 1;
 	},
 
 	isHashtag(term) {
-		console.log(term);
-		console.log(term && term[0] == '#');
+		//console.log(term);
+		//console.log(term && term[0] == '#');
 		return term && term[0] == '#';
 	},
 
@@ -222,7 +219,7 @@ Template.message.helpers({
 		}
 	},
 	body() {
-		console.log(Template.instance().body);
+		//console.log(Template.instance().button);
 		return Template.instance().body;
 
 	},
