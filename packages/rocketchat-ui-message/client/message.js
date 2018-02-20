@@ -111,7 +111,7 @@ Template.message.helpers({
 		msg = Template.instance().body;
 		//console.log(hashtagsComp(msg).length);
 		//console.log(hashtagsComp(msg));
-		return hashtagsComp(msg).length > 1;
+		return (hashtagsComp(msg).length > 1) || (hashtagsComp(msg)[0] = '#');
 	},
 
 	isHashtag(term) {
