@@ -51,12 +51,18 @@
 			{{/if}}
 		</span>
 		<div class="body color-primary-font-color {{system true}}" dir="auto" data-unread-text="{{_ "Unread_Messages"}}">
-			{{#if (hasHashtags body)}}
+			{{#if hasHashtags}}
 				<ul class = "message-includes-hashtags">
-					{{#each term in (hashtagsSeparation body) }}
-						<li class = "message-includes-hashtags-terms">
-							{{term}}
-						</li>
+					{{#each term in hashtagsSeparation }}
+						{{#if (isHashtag term)}}
+							<li class = "message-includes-hashtags-terms hashtag">
+								{{term}}
+							</li>
+						{{else}}
+							<li class = "message-includes-hashtags-terms">
+								{{term}}
+							</li>
+						{{/if}}
 					{{/each}}
 				</ul >
 			{{else}}
