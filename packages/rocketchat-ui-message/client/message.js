@@ -4,6 +4,48 @@ import moment from 'moment';
 
 export const reactList = ["grin", "fearful", "angry", "sunglasses"];
 
+function hashtagsComp(msg) {
+	msgComponents = [];
+	temp = '';
+	mode = 'msg'; //is this norm text or hashtag
+	for (index in msg){
+		//console.log(index);
+		//console.log(mode);
+		if (mode == 'msg') {
+			if (msg[index] != '#') {
+				temp = temp + msg[index];
+				//console.log(temp);
+			}
+			else {
+				//console.log('enter # mode');
+				mode = '#';
+				//console.log(mode);
+				if (temp)
+					msgComponents.push(temp);
+				temp = '#';
+			}
+		}
+		else {
+			//console.log('in # mode');
+			if ((msg[index].toLowerCase() >= 'a' && msg[index].toLowerCase() <= 'z')
+				|| (msg[index] >= '0' && msg['index'] <= '9')) {
+				temp = temp + msg[index];
+				//console.log(temp);
+			}
+			else
+			{
+				if (temp)
+					msgComponents.push(temp);
+				temp = msg[index];
+				mode = 'msg';
+			}
+		}
+	}
+	if (temp)
+		msgComponents.push(temp);
+	return msgComponents;
+}
+
 Template.message.helpers({
 	encodeURI(text) {
 		return encodeURI(text);
@@ -63,40 +105,22 @@ Template.message.helpers({
 	},
 
 	//separate hashtags from normal text messages
-	hashtagsSeparation(msg){
-		msgComponents = [];
-		temp = '';
-		mode = 'msg'; //is this norm text or hashtag
-		for (index in msg){
-			if (mode = 'msg') {
-				if (msg[index] != '#')
-					temp = temp + msg[index];
-				else {
-					mode = '#';
-					if (!temp.isEmpty())
-						msgComponent.push(temp);
-					temp = '#';
-				}
-			}
-			else {
-				if ((msg[index].toLowerCase() >= 'a' && msg[index].toLowerCase() >= 'z')
-					|| (msg[index] >= '0' && msg['index'] <= '9'))
-					temp = temp + msg[index];
-				else
-					{
-						if (!temp.isEmpty())
-							msgComponent.push(temp);
-						temp = msg[index];
-						mode = 'msg';
-					}
-			}
-		}
-
-		return msgComponents;
+	hashtagsSeparation(){
+		msg = Template.instance().body;
+		return hashtagsComp(msg);
 	},
 
-	hasHashtags(msg) {
-		return ((hashtagsSeparation (msg)) > 1);
+	hasHashtags() {
+		msg = Template.instance().body;
+		console.log(hashtagsComp(msg).length);
+		console.log(hashtagsComp(msg));
+		return hashtagsComp(msg).length > 1;
+	},
+
+	isHashtag(term) {
+		console.log(term);
+		console.log(term && term[0] == '#');
+		return term && term[0] == '#';
 	},
 
 	roleTags() {
@@ -198,7 +222,7 @@ Template.message.helpers({
 		}
 	},
 	body() {
-		console.log(Template.instance());
+		console.log(Template.instance().body);
 		return Template.instance().body;
 
 	},
