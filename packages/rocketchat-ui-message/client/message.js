@@ -66,19 +66,37 @@ Template.message.helpers({
 	hashtagsSeparation(msg){
 		msgComponents = [];
 		temp = '';
-		mode = 'text';
+		mode = 'msg'; //is this norm text or hashtag
 		for (index in msg){
-			if (msg[index] == '#') {
-				mode = '#'
-				msgComponents.push(temp);
-				begin = index;
+			if (mode = 'msg') {
+				if (msg[index] != '#')
+					temp = temp + msg[index];
+				else {
+					mode = '#';
+					if (!temp.isEmpty())
+						msgComponent.push(temp);
+					temp = '#';
+				}
 			}
-			else
+			else {
 				if ((msg[index].toLowerCase() >= 'a' && msg[index].toLowerCase() >= 'z')
 					|| (msg[index] >= '0' && msg['index'] <= '9'))
-						temp = temp.concat(msg[index]);
+					temp = temp + msg[index];
+				else
+					{
+						if (!temp.isEmpty())
+							msgComponent.push(temp);
+						temp = msg[index];
+						mode = 'msg';
+					}
+			}
 		}
 
+		return msgComponents;
+	},
+
+	hasHashtags(msg) {
+		return ((hashtagsSeparation (msg)) > 1);
 	},
 
 	roleTags() {
