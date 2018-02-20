@@ -1,3 +1,11 @@
+.message-includes-hashtags-terms {
+	display: inline-block;
+}
+
+.hashtag {
+	color: #13679a;
+}
+
 .align {
 	display: inline-block;
 }
