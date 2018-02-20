@@ -1,6 +1,11 @@
-.message-includes-hashtags-terms {
-	display: inline-block;
-}
+/*.message-includes-hashtags {
+ 	list-style-position: inside;
+	padding-left: 1.2em;
+} */
+
+/* .message-includes-hashtags-terms {
+	display: inline;
+} */
 
 .hashtag {
 	color: #13679a;
