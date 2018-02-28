@@ -29,8 +29,10 @@ Template.room.events({
 		event.preventDefault();
 		event.stopPropagation();
 		const react = event.target.getAttribute('title');
-		const data = Blaze.getData(event.currentTarget);
-		Meteor.call('setReaction', `:${ react }`, data._arguments[1]._id);
+		if (react && react in reactList) {
+			const data = Blaze.getData(event.currentTarget);
+			Meteor.call('setReaction', `:${ react }`, data._arguments[1]._id);
+		}	
 	},
 
 
