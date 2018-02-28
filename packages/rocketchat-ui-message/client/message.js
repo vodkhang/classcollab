@@ -1,8 +1,47 @@
 /* globals renderEmoji renderMessageBody */
 import _ from 'underscore';
 import moment from 'moment';
-
+//import {Template} from 'meteor/templating'
 export const reactList = ["grin", "fearful", "angry", "sunglasses"];
+import { Meteor } from 'meteor/meteor';
+function hashtagsComp(msg) {
+	msgComponents = [];
+	temp = '';
+	mode = 'msg'; //is this norm text or hashtag
+	for (index in msg){
+		if (mode == 'msg') {
+			if (msg[index] != '#') {
+				temp = temp + msg[index];
+				//console.log(temp);
+			}
+			else {
+				//console.log('enter # mode');
+				mode = '#';
+				//console.log(mode);
+				if (temp)
+					msgComponents.push(temp);
+				temp = '#';
+			}
+		}
+		else {
+			if ((msg[index].toLowerCase() >= 'a' && msg[index].toLowerCase() <= 'z')
+				|| (msg[index] >= '0' && msg[index] <= '9')) {
+				temp = temp + msg[index];
+			}
+			else
+			{
+				if (temp)
+					msgComponents.push(temp);
+				temp = msg[index];
+				mode = 'msg';
+			}
+		}
+	}
+	if (temp)
+		msgComponents.push(temp);
+	//console.log(msgComponents);
+	return msgComponents;
+}
 
 Template.message.helpers({
 	encodeURI(text) {
@@ -62,6 +101,24 @@ Template.message.helpers({
 		)
 	},
 
+	//separate hashtags from normal text messages
+	hashtagsSeparation(){
+		msg = Template.instance().body;
+		return hashtagsComp(msg);
+	},
+
+	hasHashtags() {
+		msg = Template.instance().body;
+		//console.log(hashtagsComp(msg).length);
+		//console.log(hashtagsComp(msg));
+		return (hashtagsComp(msg).length > 1) || (hashtagsComp(msg)[0] = '#');
+	},
+
+	isHashtag(term) {
+		//console.log(term);
+		//console.log(term && term[0] == '#');
+		return term && term[0] == '#';
+	},
 
 	roleTags() {
 		const user = Meteor.user();
@@ -162,7 +219,9 @@ Template.message.helpers({
 		}
 	},
 	body() {
+		//console.log(Template.instance().button);
 		return Template.instance().body;
+
 	},
 	system(returnClass) {
 		if (RocketChat.MessageTypes.isSystemMessage(this)) {
@@ -363,7 +422,37 @@ Template.message.helpers({
 		return RocketChat.MessageAction.getButtons(Template.currentData(), context, messageGroup);
 	}
 });
+// Code listen for events clicking on hashtags and return tagged messages
+Template.room.events( {
+	'click .hashtag'(event, instance) {
+		event.preventDefault();
+		event.stopPropagation();
+		console.log('activate messageSearch');
+		console.log($(event.currentTarget).html().trim());
+		console.log(instance.tabBar.getButtons());
+		console.log(event.currentTarget.parentNode.getAttribute('class'));
+		if (event.currentTarget.parentNode.getAttribute('class').indexOf('mention-link') == -1) {
+			keyup = jQuery.Event('keyup');
+			instance.tabBar.setData({
+				//label: instance.tabBar.getButtons()[2].i18nTitle,
+				label: "Messages tagged",
+				icon: instance.tabBar.getButtons()[2].icon
+			});
+			instance.tabBar.open(instance.tabBar.getButtons()[2]);
+			searchString = $(event.currentTarget).html().trim();
+			Meteor.setTimeout(() => {
+				$('.flex-tab__header.search-messages-list').hide();
+				$('#message-search').val(searchString);
+				$('#message-search').trigger(keyup);
+				//$("#message-search").prop('disabled', true);
+				$("#message-search").hide();
+			}, 1);
 
+			//Meteor.setTimeout(() => {$('#message-search').trigger(keyup);},1);
+
+		}
+	},
+});
 
 Template.message.onCreated(function() {
 	let msg = Template.currentData();
@@ -455,3 +544,5 @@ Template.message.onViewRendered = function(context) {
 		}
 	});
 };
+
+
