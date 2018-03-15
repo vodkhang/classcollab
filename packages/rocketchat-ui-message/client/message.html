@@ -52,19 +52,17 @@
 		</span>
 		<div class="body color-primary-font-color {{system true}}" dir="auto" data-unread-text="{{_ "Unread_Messages"}}">
 			{{#if hasHashtags}}
-				<ul class = "message-includes-hashtags">
-					{{#each term in hashtagsSeparation }}
-						{{#if (isHashtag term)}}
-							<li class = "message-includes-hashtags-terms hashtag">
-								{{term}}
-							</li>
-						{{else}}
-							<li class = "message-includes-hashtags-terms">
-								{{term}}
-							</li>
-						{{/if}}
-					{{/each}}
-				</ul >
+				{{#each term in hashtagsSeparation }}
+					{{#if (isHashtag term)}}
+						<span class="message-includes-hashtags-terms hashtag">
+							{{term}}
+						</span>
+					{{else}}
+						<span class="message-includes-hashtags-terms">
+							{{term}}
+						</span>
+					{{/if}}
+				{{/each}}
 			{{else}}
 				{{{body}}}
 			{{/if}}
