@@ -432,22 +432,18 @@ Template.message.onCreated(function() {
 	return this.body = (() => {
 		const isSystemMessage = RocketChat.MessageTypes.isSystemMessage(msg);
 		const messageType = RocketChat.MessageTypes.getType(msg)||{};
-		console.log('msg 1', msg);
 
 		if (messageType.render) {
-			console.log('messageType 1', messageType);
 			msg = messageType.render(msg);
 		} else if (messageType.template) {
 			// render template
 		} else if (messageType.message) {
-			console.log('messageType 2', messageType);
 			if (typeof messageType.data === 'function' && messageType.data(msg)) {
 				msg = TAPi18n.__(messageType.message, messageType.data(msg));
 			} else {
 				msg = TAPi18n.__(messageType.message);
 			}
 		} else if (msg.u && msg.u.username === RocketChat.settings.get('Chatops_Username')) {
-			console.log('messageType 3', messageType);
 			msg.html = msg.msg;
 			msg = RocketChat.callbacks.run('renderMentions', msg);
 			msg = msg.html;
@@ -455,13 +451,9 @@ Template.message.onCreated(function() {
 			msg = renderMessageBody(msg);
 		}
 
-		console.log('msg 2', msg);
-
 		if (isSystemMessage) {
 			msg.html = RocketChat.Markdown.parse(msg.html);
 		}
-
-		console.log('msg 3', msg);
 
 		return msg;
 	})();
