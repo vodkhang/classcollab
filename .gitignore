@@ -21,6 +21,10 @@
 !server/methods
 !server/methods/messageSearchMultiRooms.js
 
+#allow actionLinks
+!packages/rocketchat-api/server/v1/chat.js
+!packages/rocketchat-integrations/server/processWebhookMessage.js 
+
 !packages/rocketchat-ui-flextab
 !packages/rocketchat-ui-flextab/client
 !packages/rocketchat-ui-flextab/client/tabs
