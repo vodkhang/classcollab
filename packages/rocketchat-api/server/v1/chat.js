@@ -106,40 +106,27 @@ RocketChat.API.v1.addRoute('chat.pinMessage', { authRequired: true }, {
 		});
 	}
 });
-// RocketChat.API.v1.addRoute('chat.broadcast', {authRequired: true}, {
-// 	post() {
-// 		// const messageReturn = processWebhookMessage(this.bodyParams, this.user, undefined, true)[0];
-// 		console.log('came here 1');
-// 		bodyObj = _.map(this.body)
-// 		messagesReturn = _.map(this.bodyParams.channel,
-// 								(channel) => {console.log(channel);
-// 									processWebhookMessage(channel, this.user, undefined, true)[0];
-// 									console.log('finish process webhoo');});
-// 		// if (!messagesReturn) {
-// 		// 	return RocketChat.API.v1.failure('unknown-error');
-// 		// }
-// 		console.log('finish broadcast');
-// 		console.log(messagesReturn);
-// 		const returnObj = _.map(messagesReturn, (message) => {return {channel : message.channel, message : message.message}; });
-// 		return RocketChat.API.v1.success({
-// 			ts: Date.now(),
-// 			return_data: returnObj
-// 		});
-// 	}
-// })
+
 RocketChat.API.v1.addRoute('chat.postMessage', { authRequired: true }, {
 	post() {
 		console.log(this.bodyParams.channel);
-		const messageReturn = processWebhookMessage(this.bodyParams, this.user, undefined, true)[0];
+		const messageReturns = processWebhookMessage(this.bodyParams, this.user, undefined, true);
 
-		if (!messageReturn) {
+		if (!messageReturns) {
 			return RocketChat.API.v1.failure('unknown-error');
 		}
 
+		console.log('messageReturn', messageReturns);
+		console.log('messageReturn 0 - channel: ', messageReturns[0].channel);
+		console.log('messageReturn 1 - channel: ', messageReturns[1].channel);
+
+		let returnredChannels = _.map(messageReturns, (mess) => { return mess.channel; });
+		let returnredMessages = _.map(messageReturns, (mess) => { return mess.message; });
+
 		return RocketChat.API.v1.success({
 			ts: Date.now(),
-			channel: messageReturn.channel,
-			message: messageReturn.message
+			channel: returnredChannels,
+			message: returnredMessages
 		});
 	}
 });
