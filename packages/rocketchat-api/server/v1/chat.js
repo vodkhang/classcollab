@@ -1,7 +1,7 @@
 /* global processWebhookMessage */
 import toastr from "toastr";
 // var cheerio =  require('cheerio');
-
+import _ from 'underscore';
 RocketChat.API.v1.addRoute('chat.delete', { authRequired: true }, {
 	post() {
 		check(this.bodyParams, Match.ObjectIncluding({
@@ -106,9 +106,30 @@ RocketChat.API.v1.addRoute('chat.pinMessage', { authRequired: true }, {
 		});
 	}
 });
-
+// RocketChat.API.v1.addRoute('chat.broadcast', {authRequired: true}, {
+// 	post() {
+// 		// const messageReturn = processWebhookMessage(this.bodyParams, this.user, undefined, true)[0];
+// 		console.log('came here 1');
+// 		bodyObj = _.map(this.body)
+// 		messagesReturn = _.map(this.bodyParams.channel,
+// 								(channel) => {console.log(channel);
+// 									processWebhookMessage(channel, this.user, undefined, true)[0];
+// 									console.log('finish process webhoo');});
+// 		// if (!messagesReturn) {
+// 		// 	return RocketChat.API.v1.failure('unknown-error');
+// 		// }
+// 		console.log('finish broadcast');
+// 		console.log(messagesReturn);
+// 		const returnObj = _.map(messagesReturn, (message) => {return {channel : message.channel, message : message.message}; });
+// 		return RocketChat.API.v1.success({
+// 			ts: Date.now(),
+// 			return_data: returnObj
+// 		});
+// 	}
+// })
 RocketChat.API.v1.addRoute('chat.postMessage', { authRequired: true }, {
 	post() {
+		console.log(this.bodyParams.channel);
 		const messageReturn = processWebhookMessage(this.bodyParams, this.user, undefined, true)[0];
 
 		if (!messageReturn) {
