@@ -4,7 +4,6 @@ import s from 'underscore.string';
 this.processWebhookMessage = function(messageObj, user, defaultValues = { channel: '', alias: '', avatar: '', emoji: '' }, mustBeJoined = false) {
 	const sentData = [];
 	const channels = [].concat(messageObj.channel || messageObj.roomId || defaultValues.channel);
-	console.log(channels);
 	for (const channel of channels) {
 		const channelType = channel[0];
 
@@ -82,5 +81,6 @@ this.processWebhookMessage = function(messageObj, user, defaultValues = { channe
 		sentData.push({ channel, message: messageReturn });
 	}
 
+	console.log('sentData', sentData);
 	return sentData;
 };
