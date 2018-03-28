@@ -116,12 +116,8 @@ RocketChat.API.v1.addRoute('chat.postMessage', { authRequired: true }, {
 			return RocketChat.API.v1.failure('unknown-error');
 		}
 
-		console.log('messageReturn', messageReturns);
-		console.log('messageReturn 0 - channel: ', messageReturns[0].channel);
-		console.log('messageReturn 1 - channel: ', messageReturns[1].channel);
-
-		let returnredChannels = _.map(messageReturns, (mess) => { return mess.channel; });
-		let returnredMessages = _.map(messageReturns, (mess) => { return mess.message; });
+		const returnredChannels = _.map(messageReturns, (mess) => { return mess.channel; });
+		const returnredMessages = _.map(messageReturns, (mess) => { return mess.message; });
 
 		return RocketChat.API.v1.success({
 			ts: Date.now(),
