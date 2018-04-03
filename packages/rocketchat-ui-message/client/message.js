@@ -2,7 +2,7 @@
 import _ from 'underscore';
 import moment from 'moment';
 
-export const reactList = ["grin", "fearful", "angry", "sunglasses"];
+export const reactList = ['grin', 'fearful', 'angry', 'sunglasses'];
 
 function hashtagsComp(msg) {
 	msgComponents = [];
