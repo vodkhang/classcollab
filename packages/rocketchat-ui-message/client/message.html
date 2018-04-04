@@ -98,20 +98,7 @@
 				</li>
 			{{/each}}
 		</ul>
-		<ul class="selectedReaction">
-			{{#each reaction in selectedReactions}}
-				<li title= {{reaction.reactionName}} data-emoji="{{reaction.emoji}}" {{markUserReaction reaction}}>
-					<span class="reaction-emoji">{{> renderEmoji reaction.emoji}}</span>
-					<span class="reaction-count">{{reaction.count}}</span>
-					<ul class="people">
-						<span style="font-weight: bold;">
-							{{reaction.usernames}} <span style="color: #aaa;">{{reaction.reaction}}</span>
-						</span>
-					</ul>
-				</li>
-			{{/each}}
-		</ul>
-		<ul class="reactions">
+		<ul class="reactions {{hideReactions}}">
 			{{#each reaction in reactions}}
 				<li data-emoji="{{reaction.emoji}}" {{markUserReaction reaction}}>
 					<span class="reaction-emoji">{{> renderEmoji reaction.emoji}}</span>
