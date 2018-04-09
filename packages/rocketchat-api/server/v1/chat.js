@@ -284,8 +284,10 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 		}
 	}
 
+	options['action_params'] = params;
 	console.log('action', action);
 	console.log('method', method);
+	console.log('param', options);
 
 	if (method.toUpperCase() === 'POST') {
 		HTTP.post(action, options);
