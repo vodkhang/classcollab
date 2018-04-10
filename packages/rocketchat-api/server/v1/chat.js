@@ -285,13 +285,20 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 	}
 
 	options['action_params'] = params;
+	options['message_id'] = message.id;
 	console.log('action', action);
 	console.log('method', method);
 	console.log('param', options);
 
+	let response = {};
 	if (method.toUpperCase() === 'POST') {
-		HTTP.post(action, options);
+		response = HTTP.post(action, {
+			params: options});
 	} else if (method.toUpperCase() === 'GET') {
-		HTTP.get(action, options);
+		response = HTTP.get(action, options);
 	}
+
+	// if (response.statusCode) {
+	//
+	// }
 });
