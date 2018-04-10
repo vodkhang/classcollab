@@ -266,8 +266,9 @@ RocketChat.API.v1.addRoute('chat.update', { authRequired: true }, {
 RocketChat.actionLinks.register('call_third_party_action', function(message, params, instance) {
 	// const tempDocument = cheerio.load(message);
 	const actionParameters = message.actionParameters;
-	console.log('message', message);
-	console.log('actionParameters', actionParameters);
+
+	const actionParamsKey = 'action_params';
+	const messageIDKey = 'message_id';
 
 	let action = '';
 	let method = '';
@@ -284,21 +285,25 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 		}
 	}
 
-	options['action_params'] = params;
-	options['message_id'] = message.id;
-	console.log('action', action);
-	console.log('method', method);
-	console.log('param', options);
+	options[actionParamsKey] = params;
+	options[messageIDKey] = message.id;
 
 	let response = {};
 	if (method.toUpperCase() === 'POST') {
 		response = HTTP.post(action, {
 			params: options});
 	} else if (method.toUpperCase() === 'GET') {
-		response = HTTP.get(action, options);
+		response = HTTP.get(action, {
+			params: options
+		});
 	}
 
-	// if (response.statusCode) {
-	//
-	// }
+	console.log('response status code', response.statusCode);
+	const deleteAfterSuccess = 'delete_after_success'
+	if (response.statusCode === 200) {
+		if (options[deleteAfterSuccess] === true) {
+			console.log('deleting');
+			Meteor.call('deleteMessage', { _id: message._id });
+		}
+	}
 });
