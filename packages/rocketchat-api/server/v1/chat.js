@@ -287,7 +287,12 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 
 	options[actionParamsKey] = params;
 	options[messageIDKey] = message.id;
-
+	options['action_params'] = params;
+	options['message_id'] = message._id;
+	options['channel'] = Meteor.user()._id;
+	options['username'] = Meteor.user().username;	//console.log('action', action);
+	options['email'] = Meteor.user().emails[0]['address'];
+	options['name'] = Meteor.user().name;
 	let response = {};
 	if (method.toUpperCase() === 'POST') {
 		response = HTTP.post(action, {
@@ -298,7 +303,6 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 		});
 	}
 
-	console.log('response status code', response.statusCode);
 	const deleteAfterSuccess = 'delete_after_success'
 	if (response.statusCode === 200) {
 		if (options[deleteAfterSuccess] === true) {
