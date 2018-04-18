@@ -84,8 +84,8 @@
 		{{/unless}}
 		<ul class="actionLinks">
 			{{#each actionLink in actionLinks}}
-				<li class="color-primary-action-color">
-					<span class="action-link" data-actionlink="{{actionLink.id}}">
+				<li>
+					<span class="{{actionLink.colorClass}}" data-actionlink="{{actionLink.id}}" style="background-color: red">
 						{{#if actionLink.icon}}
 							<i class="{{actionLink.icon}}"></i>
 						{{/if}}

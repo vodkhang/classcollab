@@ -377,11 +377,21 @@ Template.message.helpers({
 			return 'hidden';
 		}
 	},
+
+	actionColorClass(actionLink) {
+		if (actionLink.color != null) {
+			return `${ actionLink.color }-action-link`;
+		} else {
+			return 'action-link';
+		}
+	},
+
 	actionLinks() {
 		// remove 'method_id' and 'params' properties
 		return _.map(this.actionLinks, function(actionLink, key) {
 			return _.extend({
-				id: key
+				id: key,
+				colorClass: this.actionColorClass(actionLink)
 			}, _.omit(actionLink, 'method_id', 'params'));
 		});
 	},
