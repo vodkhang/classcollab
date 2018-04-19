@@ -391,7 +391,7 @@ Template.message.helpers({
 		return _.map(this.actionLinks, function(actionLink, key) {
 			return _.extend({
 				id: key,
-				colorClass: this.actionColorClass(actionLink)
+				colorClass: 'yellow-action-link'
 			}, _.omit(actionLink, 'method_id', 'params'));
 		});
 	},
