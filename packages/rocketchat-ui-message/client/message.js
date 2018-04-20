@@ -3,6 +3,14 @@ import _ from 'underscore';
 import moment from 'moment';
 
 export const reactList = ['grin', 'fearful', 'angry', 'sunglasses'];
+function backgroundColorForActionLink(actionLink) {
+	return actionLink.color;
+	// if (actionLink.color != null) {
+	// 	return ;
+	// } else {
+	// 	return actionLink.color;
+	// }
+}
 
 function hashtagsComp(msg) {
 	msgComponents = [];
@@ -378,20 +386,12 @@ Template.message.helpers({
 		}
 	},
 
-	actionColorClass(actionLink) {
-		if (actionLink.color != null) {
-			return `${ actionLink.color }-action-link`;
-		} else {
-			return 'action-link';
-		}
-	},
-
 	actionLinks() {
 		// remove 'method_id' and 'params' properties
 		return _.map(this.actionLinks, function(actionLink, key) {
 			return _.extend({
 				id: key,
-				colorClass: 'yellow-action-link'
+				backgroundColor: backgroundColorForActionLink(actionLink)
 			}, _.omit(actionLink, 'method_id', 'params'));
 		});
 	},
