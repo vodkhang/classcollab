@@ -45,7 +45,6 @@
 !packages/rocketchat-integrations/server/lib
 !packages/rocketchat-integrations/server/lib/triggerHandler.js
 
-
 !.gitignore
 
 

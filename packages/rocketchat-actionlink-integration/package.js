@@ -17,7 +17,8 @@ Package.onUse(function(api) {
 		'templating',
 		'rocketchat:lib'
 	]);
-
+	api.addFiles('client/register_iframe.js', 'client');
+	api.addFiles('server/actionlink_register.js', 'server');
 	// api.addFiles('client/flexTabBar.html', 'client');
 	// api.addFiles('client/tabs/membersList.html', 'client');
 	// api.addFiles('client/tabs/messageSearch.html', 'client');
