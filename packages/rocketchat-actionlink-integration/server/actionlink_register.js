@@ -28,7 +28,7 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 	options['username'] = Meteor.user().username;	//console.log('action', action);
 	options['email'] = Meteor.user().emails[0]['address'];
 	options['name'] = Meteor.user().name;
-	//console.log('user info: ', Meteor.user());
+	console.log('user info: ', Meteor.user());
 	let response = {};
 	if (method.toUpperCase() === 'POST') {
 		response = HTTP.post(action, {
