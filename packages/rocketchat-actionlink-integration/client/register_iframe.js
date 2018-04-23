@@ -19,4 +19,13 @@ RocketChat.actionLinks.register('call_third_party_action', function (message, pa
 			options[param] = actionParameters[param];
 		}
 	}
+	modal.open({
+		title: t('Action Link'),
+		text: `<iframe src="https://www.youtube.com/embed/xA8vlt_U5OA"></iframe>`,
+		showCancelButton: false,
+		confirmButtonColor: '#DD6B55',
+		confirmButtonText: t('Cancel'),
+		closeOnConfirm: true,
+		html: true
+	});
 });
