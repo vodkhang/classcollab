@@ -18,9 +18,12 @@ Package.onUse(function(api) {
 		'rocketchat:lib'
 	]);
 	api.addFiles('client/register_iframe.js', 'client');
-	api.addFiles('client/buildParamStr.js', 'client');
+
 	api.addFiles('client/extractParamsFromQuery.js', 'client');
 	api.addFiles('server/actionlink_register.js', 'server');
+
+	api.addFiles('buildParamStr.js', ['server', 'client']);
+
 	// api.addFiles('client/flexTabBar.html', 'client');
 	// api.addFiles('client/tabs/membersList.html', 'client');
 	// api.addFiles('client/tabs/messageSearch.html', 'client');

@@ -1,6 +1,10 @@
 RocketChat.actionLinks.register('call_third_party_action', function(message, params, instance) {
-	// const tempDocument = cheerio.load(message);
 	const actionParameters = message.actionParameters;
+	const isClientServer = isClientServer(actionParameters);
+	const isServer = isClientServer[0];
+	if (!isServer) {
+		return;
+	}
 
 	const actionParamsKey = 'action_params';
 	const messageIDKey = 'message_id';

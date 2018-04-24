@@ -1,8 +1,10 @@
 RocketChat.actionLinks.register('call_third_party_action', function (message, params, instance) {
-	console.log('call this function.');
 	const actionParameters = message.actionParameters;
-
-	console.log('actionParameters', message.actionParameters);
+	const isClientServer = isClientServer(actionParameters);
+	const isClient = isClientServer[1];
+	if (!isClient) {
+		return;
+	}
 
 	const actionParamsKey = 'action_params';
 	const messageIDKey = 'message_id';
