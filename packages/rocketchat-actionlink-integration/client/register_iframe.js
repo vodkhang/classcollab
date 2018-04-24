@@ -1,7 +1,8 @@
 RocketChat.actionLinks.register('call_third_party_action', function (message, params, instance) {
 	const actionParameters = message.actionParameters;
-	const isClientServer = isClientServer(actionParameters);
+	const isClientServer = RocketChat.isClientServer(actionParameters);
 	const isClient = isClientServer[1];
+
 	if (!isClient) {
 		return;
 	}
@@ -13,19 +14,14 @@ RocketChat.actionLinks.register('call_third_party_action', function (message, pa
 	const emailKey = 'email';
 	const nameKey = 'name';
 
-	console.log('action parameters to process: ', actionParameters);
-
 	let action = '';
-	let method = '';
 
 	let param = '';
 	const options = {};
 	for (param in actionParameters) {
 		if (param === 'action') {
 			action = actionParameters['action'];
-		} else if (param === 'method') {
-			method = actionParameters['method'];
-		} else {
+		} else if (param !== 'method') {
 			options[param] = actionParameters[param];
 		}
 	}
@@ -37,11 +33,11 @@ RocketChat.actionLinks.register('call_third_party_action', function (message, pa
 	options[emailKey] = Meteor.user().emails[0]['address'];
 	options[nameKey] = Meteor.user().name;
 
-	const paramsString = buildParamString(options);
+	const paramsString = RocketChat.buildParamString(options);
 
 	console.log('options: ', options);
 	console.log('params for further comment: ', paramsString);
-	const url = `${ actionParameters.action }?${ paramsString }`;
+	const url = `${ action }?${ paramsString }`;
 	modal.open({
 		title: t('Action Link'),
 		text: `<iframe src="${ url }"></iframe>`,

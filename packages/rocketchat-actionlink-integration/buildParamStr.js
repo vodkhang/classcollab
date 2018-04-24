@@ -1,4 +1,4 @@
-buildParamString = function(options) {
+RocketChat.buildParamString = function(options) {
 	let paramsString = '';
 	let optionKey;
 	for (optionKey in options) {
@@ -10,9 +10,9 @@ buildParamString = function(options) {
 	}
 
 	return paramsString;
-};
+}
 
-isClientServer = function(actionParameters) {
+RocketChat.isClientServer = function(actionParameters) {
 	const clientServerKey = 'client_server';
 	let isServer = false;
 	let isClient = false;
@@ -23,4 +23,4 @@ isClientServer = function(actionParameters) {
 	}
 
 	return [isServer, isClient];
-}
+};

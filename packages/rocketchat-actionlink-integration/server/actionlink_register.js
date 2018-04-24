@@ -1,6 +1,6 @@
 RocketChat.actionLinks.register('call_third_party_action', function(message, params, instance) {
 	const actionParameters = message.actionParameters;
-	const isClientServer = isClientServer(actionParameters);
+	const isClientServer = RocketChat.isClientServer(actionParameters);
 	const isServer = isClientServer[0];
 	if (!isServer) {
 		return;
@@ -45,34 +45,4 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 			params: options
 		});
 	}
-
-	const deleteAfterSuccess = 'delete_after_success'
-	const originalMessage = RocketChat.models.Messages.findOneById(message._id, {
-		fields: {
-			u: 1,
-			rid: 1,
-			file: 1,
-			ts: 1
-		}
-	});
-
-	//
-	// if (response.statusCode === 200) {
-	// 	if (options[deleteAfterSuccess] === true) {
-	// 		//console.log('deleting');
-	// 		//console.log('message id: ', message._id);
-	// 		//console.log('message content ', message);
-	// 		//RocketChat.deleteMessage(originalMessage, Meteor.user());
-	// 		if (Meteor.user().roles.includes('admin'))
-	// 			Meteor.call('deleteMessage', { _id: message._id });
-	// 		else {
-	// 			//console.log('user is not an admin');
-	// 			message.actionLinks = null;
-	// 			RocketChat.models.Messages.update(message._id, {actionLinks: null});
-	// 			const m = RocketChat.models.Messages.findOneById(message._id, {fields : {actionLinks : 1}});
-	// 			//console.log('message after delete actionLinks: ', m);
-	// 			RocketChat.updateMessage(message, Meteor.user());
-	// 		}
-	// 	}
-	// }
 });
