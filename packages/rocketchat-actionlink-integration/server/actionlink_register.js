@@ -29,9 +29,9 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 	}
 
 	options[actionParamsKey] = params;
-	options[messageIDKey] = message.id;
+	options[messageIDKey] = message._id;
 
-	options[channelKey] = Meteor.user()._id;
+	options[channelKey] = message.rid;
 	options[usernameKey] = Meteor.user().username;
 	options[emailKey] = Meteor.user().emails[0]['address'];
 	options[nameKey] = Meteor.user().name;
@@ -44,5 +44,9 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 		response = HTTP.get(action, {
 			params: options
 		});
+	}
+
+	if (response.statusCode !== 200) {
+		console.log('response: ', response);
 	}
 });

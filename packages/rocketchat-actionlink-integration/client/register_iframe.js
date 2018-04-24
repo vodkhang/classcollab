@@ -28,7 +28,7 @@ RocketChat.actionLinks.register('call_third_party_action', function (message, pa
 	options[actionParamsKey] = params;
 	options[messageIDKey] = message._id;
 
-	options[channelKey] = Meteor.user()._id;
+	options[channelKey] = message.rid;
 	options[usernameKey] = Meteor.user().username;
 	options[emailKey] = Meteor.user().emails[0]['address'];
 	options[nameKey] = Meteor.user().name;
@@ -44,7 +44,7 @@ RocketChat.actionLinks.register('call_third_party_action', function (message, pa
 		//text: '<iframe src="https://www.youtube.com/embed/xA8vlt_U5OA"></iframe>',
 		showCancelButton: false,
 		//confirmButtonColor: '#DD6B55',
-		confirmButtonText: t('Cancel'),
+		confirmButtonText: t('Done'),
 		closeOnConfirm: true,
 		html: true
 	});
