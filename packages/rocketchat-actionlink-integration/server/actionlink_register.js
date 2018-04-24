@@ -4,6 +4,10 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 
 	const actionParamsKey = 'action_params';
 	const messageIDKey = 'message_id';
+	const channelKey = 'channel';
+	const usernameKey = 'username';
+	const emailKey = 'email';
+	const nameKey = 'name';
 
 	let action = '';
 	let method = '';
@@ -22,13 +26,12 @@ RocketChat.actionLinks.register('call_third_party_action', function(message, par
 
 	options[actionParamsKey] = params;
 	options[messageIDKey] = message.id;
-	options['action_params'] = params;
-	options['message_id'] = message._id;
-	options['channel'] = Meteor.user()._id;
-	options['username'] = Meteor.user().username;	//console.log('action', action);
-	options['email'] = Meteor.user().emails[0]['address'];
-	options['name'] = Meteor.user().name;
-	console.log('user info: ', Meteor.user());
+
+	options[channelKey] = Meteor.user()._id;
+	options[usernameKey] = Meteor.user().username;
+	options[emailKey] = Meteor.user().emails[0]['address'];
+	options[nameKey] = Meteor.user().name;
+
 	let response = {};
 	if (method.toUpperCase() === 'POST') {
 		response = HTTP.post(action, {
