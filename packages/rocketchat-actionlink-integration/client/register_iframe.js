@@ -40,7 +40,7 @@ RocketChat.actionLinks.register('call_third_party_action', function (message, pa
 	const url = `${ action }?${ paramsString }`;
 	modal.open({
 		title: t('Action Link'),
-		text: `<iframe src="${ url }"></iframe>`,
+		text: `<iframe src="${ url }" width="100%" height="100%"></iframe>`,
 		//text: '<iframe src="https://www.youtube.com/embed/xA8vlt_U5OA"></iframe>',
 		showCancelButton: false,
 		//confirmButtonColor: '#DD6B55',
