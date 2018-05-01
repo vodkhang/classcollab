@@ -377,62 +377,12 @@ Template.messageBox.events({
 		chatMessages[this._id].input = instance.find('.js-input-message');
 	},
 	'click .js-send'(event, instance) {
-		const input = instance.find('.js-input-message');
-		//console.log(input);
-		//console.log(chatMessages);
-		//console.log(chatMessages[this._id]);
-		// test zoom link generate
-		//var jwtToken = jwtGenerate();
-		// const uid = "uRV8ThPhQOWkCFg-UpLsjw";
-		// const options = {
-		// 	hostname : 'api.zoom.us',
-		// 	port: 443,
-		// 	path: '/v2/users/' + uid + '/meetings',
-		// 	method: 'POST',
-		// 	headers: {
-
-		// 		'Authorization': 'Bearer' + jwtToken,
-		// 		'Content-Type' : 'application/json'
-		// 	}
-		// };
-
-		// var roomObject = {
-	 //    	"topic": "test",
-	 //    	"type": 1,
-	 //    	"agenda": "test"
-		// 	};
-
-		// const https = require('https');
-		// const req = https.request(options, (res) => {
-		// 	res.on('data', (chunk) => {
-		// 	    console.log(`BODY: ${chunk}`);
-		// 	    console.log(`type: ${typeof(chunk)}`);
-		// 	    var t = JSON.parse(chunk);
-		// 	    input.msg = t.join_url;
-
-			    chatMessages[this._id].send(this._id, input, () => {
-					// fixes https://github.com/RocketChat/Rocket.Chat/issues/3037
-					// at this point, the input is cleared and ready for autogrow
-					input.updateAutogrow();
-					instance.isMessageFieldEmpty.set(chatMessages[this._id].isEmpty());
-					return input.focus();
-				});
-
-
-	//		  });
-	// 	    res.on('end', () => {
-	// 	    	console.log('No more data in response.');
-	// 	  	});
-	// 	}) ;
-
-	// req.on('error', (e) => {
-	//   console.error(e);
-	// });
-	// req.write(JSON.stringify(roomObject));
-	// req.end();
-
-
-
+		const input = instance.find('.js-input-message')
+		chatMessages[this._id].send(this._id, input, () => {
+			input.updateAutogrow();
+			instance.isMessageFieldEmpty.set(chatMessages[this._id].isEmpty());
+			return input.focus();
+		});
 	},
 	'keyup .js-input-message'(event, instance) {
 		chatMessages[this._id].keyup(this._id, event, instance);

@@ -2,7 +2,8 @@
 
 import mime from 'mime-type/with-db';
 import {VRecDialog} from 'meteor/rocketchat:ui-vrecord';
-
+//import * as actionlink_integration from 'packages/rocketchat-actionlink-integration';
+//import {integrationsCollections} from 'meteor/rocketchat-actionlink-integration';
 RocketChat.messageBox.actions.add('Create_new', 'Video_message', {
 	id: 'video-message',
 	icon: 'video',
@@ -82,6 +83,7 @@ RocketChat.messageBox.actions.add('Add_files_from', 'Computer', {
 	}
 });
 
+
 RocketChat.messageBox.actions.add('Share', 'My_location', {
 	id: 'share-location',
 	icon: 'map-pin',
@@ -115,3 +117,4 @@ RocketChat.messageBox.actions.add('Share', 'My_location', {
 		});
 	}
 });
+

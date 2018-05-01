@@ -18,7 +18,8 @@ Package.onUse(function(api) {
 		'tracker',
 		'rocketchat:lib',
 		'rocketchat:ui-account',
-		'rocketchat:ui-vrecord'
+		'rocketchat:ui-vrecord',
+		'rocketchat:integrations'
 	]);
 
 	api.addFiles('client/message.html', 'client');
@@ -44,4 +45,5 @@ Package.onUse(function(api) {
 	api.addFiles('startup/messageBoxActions.js', 'client');
 
 	api.export('renderMessageBody');
+	api.export('messageBoxCurrentActions');
 });
