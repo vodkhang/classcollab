@@ -16,6 +16,10 @@
 !packages/hashtag
 !packages/hashtag/**
 
+#allow files for action link
+!packages/rocketchat-actionlink-integration
+!packages/rocketchat-actionlink-integration/**
+
 #allow server file messageSearchMultiRoom
 !*server
 !server/methods
@@ -40,7 +44,6 @@
 !packages/rocketchat-integrations/server
 !packages/rocketchat-integrations/server/lib
 !packages/rocketchat-integrations/server/lib/triggerHandler.js
-
 
 !.gitignore
 

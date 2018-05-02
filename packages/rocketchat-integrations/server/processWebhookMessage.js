@@ -81,6 +81,5 @@ this.processWebhookMessage = function(messageObj, user, defaultValues = { channe
 		sentData.push({ channel, message: messageReturn });
 	}
 
-	console.log('sentData', sentData);
 	return sentData;
 };

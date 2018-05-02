@@ -385,7 +385,6 @@ RocketChat.integrations.triggerHandler = new class RocketChatIntegrationHandler 
 				data.text = message.msg;
 				temp = RocketChat.models.Users.findOneByUsername(message.u.username, {fields : {roles: 1, emails: 1, name: 1}});
 
-				console.log("my roles: ", temp);
 				data.roles = temp.roles;
 				data.emails = temp.emails[0].address;
 				data.name = temp.name;
