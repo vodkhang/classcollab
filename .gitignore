@@ -41,8 +41,9 @@
 !packages/rocketchat-ui-flextab/client/tabs/messageSearch.js
 
 !packages/rocketchat-integrations
+!packages/rocketchat-integrations/package.js
 !packages/rocketchat-integrations/client
-!packages/rocketchat-integrations/client/collection.js
+!packages/rocketchat-integrations/client/collections.js
 !packages/rocketchat-integrations/server
 !packages/rocketchat-integrations/server/lib
 !packages/rocketchat-integrations/server/lib/triggerHandler.js
