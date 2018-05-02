@@ -107,9 +107,8 @@ RocketChat.API.v1.addRoute('chat.pinMessage', { authRequired: true }, {
 	}
 });
 
-RocketChat.API.v1.addRoute('chat.postMessage', { authRequired: true }, {
+RocketChat.API.v1.addRoute('chat.postMultipleMessages', { authRequired: true }, {
 	post() {
-		console.log(this.bodyParams.channel);
 		const messageReturns = processWebhookMessage(this.bodyParams, this.user, undefined, true);
 
 		if (!messageReturns) {
@@ -125,6 +124,20 @@ RocketChat.API.v1.addRoute('chat.postMessage', { authRequired: true }, {
 			message: returnredMessages
 		});
 	}
+});
+
+RocketChat.API.v1.addRoute('chat.postMessage', { authRequired: true }, {
+    post() {
+        const messageReturn = processWebhookMessage(this.bodyParams, this.user, undefined, true)[0];
+        if (!messageReturn) {
+            return RocketChat.API.v1.failure('unknown-error');
+        }
+        return RocketChat.API.v1.success({
+            ts: Date.now(),
+            channel: messageReturn.channel,
+            message: messageReturn.message
+        });
+    }
 });
 
 RocketChat.API.v1.addRoute('chat.search', { authRequired: true }, {
